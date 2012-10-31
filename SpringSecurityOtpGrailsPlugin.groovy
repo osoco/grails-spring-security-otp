@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -57,48 +57,41 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.util.AntUrlPathMatcher
 import org.springframework.security.web.util.RegexUrlPathMatcher
 
-
 class SpringSecurityOtpGrailsPlugin {
 
-    def version = "0.1"
-    def grailsVersion = "1.3.7 > *"
-	 def loadAfter = ['springSecurityCore']
-    def title = "Spring Security OTP Plugin"
-    def authorEmail = "info@osoco.es"
-    def organization = [name: "OSOCO", url: "http://osoco.es/"]
-    def developers = [
-        [ name: "Rafael Luque", email: "rafael.luque@osoco.es" ],
-        [ name: "Arturo Garcia", email: "arturo.garcia@osoco.es" ] ]
-    def description = '''\
-Adds support for one-time password to Spring Security.
-'''
-    def license = "APACHE"
-    def documentation = "http://grails.org/plugin/spring-security-otp"
-    def scm = [ url: "https://github.com/osoco/grails-spring-security-otp" ]
-    def issueManagement = [ system: "GitHub", url: "https://github.com/osoco/grails-spring-security-otp/issues" ]
+	def version = "0.1"
+	def grailsVersion = "1.3.7 > *"
+	def loadAfter = ['springSecurityCore']
+	def title = "Spring Security OTP Plugin"
+	def authorEmail = "info@osoco.es"
+	def organization = [name: "OSOCO", url: "http://osoco.es/"]
+	def developers = [
+		[ name: "Rafael Luque", email: "rafael.luque@osoco.es" ],
+		[ name: "Arturo Garcia", email: "arturo.garcia@osoco.es" ] ]
+	def description = 'Adds support for one-time password to Spring Security'
 
-    def pluginExcludes = [
-        "grails-app/views/error.gsp"
-    ]
+	def license = "APACHE"
+	def documentation = "http://grails.org/plugin/spring-security-otp"
+	def scm = [ url: "https://github.com/osoco/grails-spring-security-otp" ]
+	def issueManagement = [ system: "GitHub", url: "https://github.com/osoco/grails-spring-security-otp/issues" ]
 
-
-    def doWithSpring = {
+	def doWithSpring = {
 
 		def conf = SpringSecurityUtils.securityConfig
-		if (!conf || !conf.active) { 
-            return 
-        }
+		if (!conf || !conf.active) {
+			return
+		}
 
 		SpringSecurityUtils.loadSecondaryConfig 'DefaultOtpSecurityConfig'
 
 		conf = SpringSecurityUtils.securityConfig
-		if (!conf.otp.active) { 
-            return 
-        }
+		if (!conf.otp.active) {
+			return
+		}
 
 		println 'Configuring Spring Security OTP...'
 
-        /** otpAuthenticationFilter */
+		/** otpAuthenticationFilter */
 		otpAuthenticationFilter(OneTimePasswordAuthenticationFilter) {
 			authenticationManager = ref('authenticationManager')
 			sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
@@ -114,10 +107,10 @@ Adds support for one-time password to Spring Security.
 			postOnly = conf.otp.apf.postOnly
 		}
 
-        /** otpAuthenticationProvider */
+		/** otpAuthenticationProvider */
 		otpAuthenticationProvider(OneTimePasswordAuthenticationProvider) {
 			userDetailsService = ref('otpUserDetailsService')
-            oneTimePasswordService = ref('oneTimePasswordService')
+			oneTimePasswordService = ref('oneTimePasswordService')
 			passwordEncoder = null
 			userCache = ref('userCache')
 			saltSource = null
@@ -126,113 +119,112 @@ Adds support for one-time password to Spring Security.
 			hideUserNotFoundExceptions = conf.dao.hideUserNotFoundExceptions // true
 		}
 
-        /** oneTimePasswordService */
-        oneTimePasswordService(OneTimePasswordService) {
-            otpDigits = conf.otp.totp.digits
-            otpAlgorithm = conf.otp.totp.algorithm
-            preStepsWindow = conf.otp.totp.preStepsValidWindow
-            postStepsWindow = conf.otp.totp.postStepsValidWindow
-        }
+		/** oneTimePasswordService */
+		oneTimePasswordService(OneTimePasswordService) {
+			otpDigits = conf.otp.totp.digits
+			otpAlgorithm = conf.otp.totp.algorithm
+			preStepsWindow = conf.otp.totp.preStepsValidWindow
+			postStepsWindow = conf.otp.totp.postStepsValidWindow
+		}
 
 		/** userDetailsService */
 		otpUserDetailsService(OneTimePasswordUserDetailsService) {
 			grailsApplication = ref('grailsApplication')
 		}
 
-        /** otpAuthenticationEntryPoint */
+		/** otpAuthenticationEntryPoint */
 		otpAuthenticationEntryPoint(AjaxAwareAuthenticationEntryPoint) {
 			loginFormUrl = conf.otp.auth.loginFormUrl // '/login/authOTP'
-			forceHttps = conf.otp.auth.forceHttps  // false
+			forceHttps = conf.otp.auth.forceHttps // false
 			ajaxLoginFormUrl = conf.otp.auth.ajaxLoginFormUrl // '/login/authOTPAjax'
 			useForward = conf.otp.auth.useForward // false
 			portMapper = ref('portMapper')
 			portResolver = ref('portResolver')
 		}
 
-        if (conf.otp.useTwoFactorsCombinedLoginForm) {
+		if (conf.otp.useTwoFactorsCombinedLoginForm) {
 
-            /** twoFactorsAuthenticationEntryPoint */
-            twoFactorsAuthenticationEntryPoint(AjaxAwareAuthenticationEntryPoint) {
-                loginFormUrl = conf.otp.auth.combinedLoginFormUrl // '/login/authTwoFactors'
-                forceHttps = conf.otp.auth.forceHttps  // false
-                ajaxLoginFormUrl = conf.otp.auth.combinedAjaxLoginFormUrl // '/login/authTwoFactorsAjax'
-                useForward = conf.otp.auth.useForward // false
-                portMapper = ref('portMapper')
-                portResolver = ref('portResolver')
-            }
+			/** twoFactorsAuthenticationEntryPoint */
+			twoFactorsAuthenticationEntryPoint(AjaxAwareAuthenticationEntryPoint) {
+				loginFormUrl = conf.otp.auth.combinedLoginFormUrl // '/login/authTwoFactors'
+				forceHttps = conf.otp.auth.forceHttps // false
+				ajaxLoginFormUrl = conf.otp.auth.combinedAjaxLoginFormUrl // '/login/authTwoFactorsAjax'
+				useForward = conf.otp.auth.useForward // false
+				portMapper = ref('portMapper')
+				portResolver = ref('portResolver')
+			}
 
-            /** twoFactorExceptionTranslationFilter */
-            twoFactorExceptionTranslationFilter(TwoFactorExceptionTranslationFilter) {
-                useTwoFactorsCombinedLoginForm = conf.otp.useTwoFactorsCombinedLoginForm
-                authenticationEntryPoint = ref('authenticationEntryPoint')
-                secondFactorAuthenticationEntryPoint = ref('otpAuthenticationEntryPoint')
-                twoFactorsAuthenticationEntryPoint = ref('twoFactorsAuthenticationEntryPoint')
-                accessDeniedHandler = ref('accessDeniedHandler')
-                authenticationTrustResolver = ref('authenticationTrustResolver')
-                requestCache = ref('requestCache')
-            }        
+			/** twoFactorExceptionTranslationFilter */
+			twoFactorExceptionTranslationFilter(TwoFactorExceptionTranslationFilter) {
+				useTwoFactorsCombinedLoginForm = conf.otp.useTwoFactorsCombinedLoginForm
+				authenticationEntryPoint = ref('authenticationEntryPoint')
+				secondFactorAuthenticationEntryPoint = ref('otpAuthenticationEntryPoint')
+				twoFactorsAuthenticationEntryPoint = ref('twoFactorsAuthenticationEntryPoint')
+				accessDeniedHandler = ref('accessDeniedHandler')
+				authenticationTrustResolver = ref('authenticationTrustResolver')
+				requestCache = ref('requestCache')
+			}
 
-            /** nonRedirectAuthenticationSuccessHandler */
-            nopAuthenticationSuccessHandler(NopAuthenticationSuccessHandler)
+			/** nonRedirectAuthenticationSuccessHandler */
+			nopAuthenticationSuccessHandler(NopAuthenticationSuccessHandler)
 
-            /** firstFactorAuthenticationFilter */
-            firstFactorAuthenticationFilter(FirstFactorRequestHolderAuthenticationFilter) {
-                authenticationManager = ref('authenticationManager')
-                sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
-                authenticationSuccessHandler = ref('nopAuthenticationSuccessHandler')
-                authenticationFailureHandler = ref('authenticationFailureHandler')
-                rememberMeServices = ref('rememberMeServices')
-                authenticationDetailsSource = ref('authenticationDetailsSource')
-                filterProcessesUrl = conf.otp.apf.twoFactorsFilterProcessesUrl // '/j_spring_security_twofactors'
-                usernameParameter = conf.otp.apf.usernameParameter // 'j_username'
-                passwordParameter = conf.otp.apf.passwordParameter // 'j_password'
-                continueChainBeforeSuccessfulAuthentication = true
-                allowSessionCreation = conf.otp.apf.allowSessionCreation
-                postOnly = conf.otp.apf.postOnly
-            }
+			/** firstFactorAuthenticationFilter */
+			firstFactorAuthenticationFilter(FirstFactorRequestHolderAuthenticationFilter) {
+				authenticationManager = ref('authenticationManager')
+				sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
+				authenticationSuccessHandler = ref('nopAuthenticationSuccessHandler')
+				authenticationFailureHandler = ref('authenticationFailureHandler')
+				rememberMeServices = ref('rememberMeServices')
+				authenticationDetailsSource = ref('authenticationDetailsSource')
+				filterProcessesUrl = conf.otp.apf.twoFactorsFilterProcessesUrl // '/j_spring_security_twofactors'
+				usernameParameter = conf.otp.apf.usernameParameter // 'j_username'
+				passwordParameter = conf.otp.apf.passwordParameter // 'j_password'
+				continueChainBeforeSuccessfulAuthentication = true
+				allowSessionCreation = conf.otp.apf.allowSessionCreation
+				postOnly = conf.otp.apf.postOnly
+			}
 
-            /** secondFactorAuthenticationFilter */
-            secondFactorAuthenticationFilter(OneTimePasswordAuthenticationFilter) {
-                authenticationManager = ref('authenticationManager')
-                sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
-                authenticationSuccessHandler = ref('authenticationSuccessHandler')
-                authenticationFailureHandler = ref('authenticationFailureHandler')
-                rememberMeServices = ref('rememberMeServices')
-                authenticationDetailsSource = ref('authenticationDetailsSource')
-                filterProcessesUrl = conf.otp.apf.twoFactorsFilterProcessesUrl // '/j_spring_security_twofactors'
-                usernameParameter = conf.otp.apf.usernameParameter // 'j_username'
-                passwordParameter = conf.otp.apf.otpParameter // 'j_otp'
-                continueChainBeforeSuccessfulAuthentication = conf.otp.apf.continueChainBeforeSuccessfulAuthentication
-                allowSessionCreation = conf.otp.apf.allowSessionCreation
-                postOnly = conf.otp.apf.postOnly
-            }
+			/** secondFactorAuthenticationFilter */
+			secondFactorAuthenticationFilter(OneTimePasswordAuthenticationFilter) {
+				authenticationManager = ref('authenticationManager')
+				sessionAuthenticationStrategy = ref('sessionAuthenticationStrategy')
+				authenticationSuccessHandler = ref('authenticationSuccessHandler')
+				authenticationFailureHandler = ref('authenticationFailureHandler')
+				rememberMeServices = ref('rememberMeServices')
+				authenticationDetailsSource = ref('authenticationDetailsSource')
+				filterProcessesUrl = conf.otp.apf.twoFactorsFilterProcessesUrl // '/j_spring_security_twofactors'
+				usernameParameter = conf.otp.apf.usernameParameter // 'j_username'
+				passwordParameter = conf.otp.apf.otpParameter // 'j_otp'
+				continueChainBeforeSuccessfulAuthentication = conf.otp.apf.continueChainBeforeSuccessfulAuthentication
+				allowSessionCreation = conf.otp.apf.allowSessionCreation
+				postOnly = conf.otp.apf.postOnly
+			}
 
-            SpringSecurityUtils.registerFilter 'firstFactorAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
-            SpringSecurityUtils.registerFilter 'secondFactorAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 2
+			SpringSecurityUtils.registerFilter 'firstFactorAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 1
+			SpringSecurityUtils.registerFilter 'secondFactorAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 2
 
-        } else {
+		} else {
 
-            /** twoFactorExceptionTranslationFilter */
-            twoFactorExceptionTranslationFilter(TwoFactorExceptionTranslationFilter) {
-                useTwoFactorsCombinedLoginForm = conf.otp.useTwoFactorsCombinedLoginForm
-                authenticationEntryPoint = ref('authenticationEntryPoint')
-                secondFactorAuthenticationEntryPoint = ref('otpAuthenticationEntryPoint')
-                accessDeniedHandler = ref('accessDeniedHandler')
-                authenticationTrustResolver = ref('authenticationTrustResolver')
-                requestCache = ref('requestCache')
-            }        
-            
-        }
+			/** twoFactorExceptionTranslationFilter */
+			twoFactorExceptionTranslationFilter(TwoFactorExceptionTranslationFilter) {
+				useTwoFactorsCombinedLoginForm = conf.otp.useTwoFactorsCombinedLoginForm
+				authenticationEntryPoint = ref('authenticationEntryPoint')
+				secondFactorAuthenticationEntryPoint = ref('otpAuthenticationEntryPoint')
+				accessDeniedHandler = ref('accessDeniedHandler')
+				authenticationTrustResolver = ref('authenticationTrustResolver')
+				requestCache = ref('requestCache')
+			}
+		}
 
-        /** otpVoter **/
-        otpVoter(OneTimePasswordVoter)
+		/** otpVoter **/
+		otpVoter(OneTimePasswordVoter)
 		SpringSecurityUtils.registerVoter 'otpVoter'
 
 		/** twoFactorAccessDecisionManager */
 		twoFactorDecisionManager(TwoFactorDecisionManager) {
-            firstFactorDecisionManager = ref('accessDecisionManager')
-            twoFactorDecisionVoter = ref('otpVoter')
-        }
+			firstFactorDecisionManager = ref('accessDecisionManager')
+			twoFactorDecisionVoter = ref('otpVoter')
+		}
 
 		/** filterInvocationInterceptor */
 		filterInvocationInterceptor(FilterSecurityInterceptor) {
@@ -242,14 +234,14 @@ Adds support for one-time password to Spring Security.
 			runAsManager = ref('runAsManager')
 		}
 
-        def createRefList = { names -> names.collect { name -> ref(name) } }
+		def createRefList = { names -> names.collect { name -> ref(name) } }
 		def decisionVoters = createRefList(SpringSecurityUtils.getVoterNames())
 		String securityConfigType = SpringSecurityUtils.securityConfigType
 
 		if (securityConfigType == 'Annotation') {
 			objectDefinitionSource(AnnotationMultipleVoterFilterInvocationDefinition) {
 				application = ref('grailsApplication')
-                voters = decisionVoters
+				voters = decisionVoters
 				expressionHandler = ref('webExpressionHandler')
 				boolean lowercase = conf.controllerAnnotations.lowercase // true
 				if ('ant'.equals(conf.controllerAnnotations.matcher)) {
@@ -265,7 +257,7 @@ Adds support for one-time password to Spring Security.
 		}
 		else if (securityConfigType == 'Requestmap') {
 			objectDefinitionSource(RequestmapMultipleVoterFilterInvocationDefinition) {
-                voters = decisionVoters
+				voters = decisionVoters
 				expressionHandler = ref('webExpressionHandler')
 				urlMatcher = new AntUrlPathMatcher(true)
 				if (conf.rejectIfNoRule instanceof Boolean) {
@@ -274,8 +266,8 @@ Adds support for one-time password to Spring Security.
 			}
 		}
 		else if (securityConfigType == 'InterceptUrlMap') {
-			objectDefinitionSource(InterceptUrlMultipleVoterMapFilterInvocationDefinition) {
-                voters = decisionVoters
+			objectDefinitionSource(InterceptUrlMapMultipleVoterFilterInvocationDefinition) {
+				voters = decisionVoters
 				expressionHandler = ref('webExpressionHandler')
 				urlMatcher = new AntUrlPathMatcher(true)
 				if (conf.rejectIfNoRule instanceof Boolean) {
@@ -285,11 +277,9 @@ Adds support for one-time password to Spring Security.
 		}
 
 		SpringSecurityUtils.registerProvider 'otpAuthenticationProvider'
-        SpringSecurityUtils.registerFilter 'otpAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order +  3
+		SpringSecurityUtils.registerFilter 'otpAuthenticationFilter', SecurityFilterPosition.FORM_LOGIN_FILTER.order + 3
 		SpringSecurityUtils.registerFilter 'twoFactorExceptionTranslationFilter', SecurityFilterPosition.EXCEPTION_TRANSLATION_FILTER.order + 1
 
 		println '...finished configuring Spring Security OTP'
-
-    }
-
+	}
 }
