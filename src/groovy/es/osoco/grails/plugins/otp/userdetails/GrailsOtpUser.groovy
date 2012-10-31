@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -33,11 +33,10 @@
 package es.osoco.grails.plugins.otp.userdetails
 
 import org.codehaus.groovy.grails.plugins.springsecurity.GrailsUser
-
 import org.springframework.security.core.GrantedAuthority
 
 /**
- * Extends the default GrailsUser class to contain the secretKey attribute required to calculate 
+ * Extends the default GrailsUser class to contain the secretKey attribute required to calculate
  * the one-time passwords.
  *
  * @author <a href='mailto:rafael.luque@osoco.es'>Rafael Luque</a>
@@ -60,16 +59,14 @@ class GrailsOtpUser extends GrailsUser {
 	 * @param authorities the authorities that should be granted to the caller if they
 	 *        presented the correct username and password and the user is enabled. Not null.
 	 * @param id the id of the domain class instance used to populate this
-     * @param secretKey
+	 * @param secretKey
 	 */
-	public GrailsOtpUser(String username, String password, boolean enabled, boolean accountNonExpired,
-            boolean credentialsNonExpired, boolean accountNonLocked,
-            Collection<GrantedAuthority> authorities, Object id, String secretKey) {
-		
-        super(username, password, enabled, accountNonExpired, 
-            credentialsNonExpired, accountNonLocked, authorities, id)
+	GrailsOtpUser(String username, String password, boolean enabled, boolean accountNonExpired,
+	              boolean credentialsNonExpired, boolean accountNonLocked,
+	              Collection<GrantedAuthority> authorities, Object id, String secretKey) {
+
+		super(username, password, enabled, accountNonExpired,
+			credentialsNonExpired, accountNonLocked, authorities, id)
 		this.secretKey = secretKey
-
 	}
-
 }

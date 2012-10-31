@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -30,35 +30,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.osoco.grails.plugins.otp.web
+package es.osoco.grails.plugins.otp.web;
+
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.groovy.grails.plugins.springsecurity.RequestHolderAuthenticationFilter
-
+import org.codehaus.groovy.grails.plugins.springsecurity.RequestHolderAuthenticationFilter;
 import org.springframework.security.core.Authentication;
 
 /**
  * Extends the Grails Spring Security Core's {@link RequestHolderAuthenticationFilter} to override
- * the <code>successfulAuthentication</code> method in order to avoid the filter sets the 
- * <code>Authentication</code> object on the {@link SecurityContextHolder} and invokes to a 
+ * the <code>successfulAuthentication</code> method in order to avoid the filter sets the
+ * <code>Authentication</code> object on the {@link SecurityContextHolder} and invokes to a
  * {@link AuthenticationSuccessHandler}.
  *
  * @author <a href='mailto:rafael.luque@osoco.es'>Rafael Luque</a>
  */
-class FirstFactorRequestHolderAuthenticationFilter extends RequestHolderAuthenticationFilter {
-
+public class FirstFactorRequestHolderAuthenticationFilter extends RequestHolderAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             Authentication authResult) throws IOException, ServletException {
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("First authentication success, but now the second-factor authentication is pending.")
-        }
-
+   	 logger.debug("First authentication success, but now the second-factor authentication is pending.");
     }
-
 }
