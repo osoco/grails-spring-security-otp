@@ -62,9 +62,7 @@ class SpringSecurityOtpGrailsPlugin {
 
     def version = "0.1"
     def grailsVersion = "1.3.7 > *"
-
-    def dependsOn = [springSecurityCore: '1.2.7.2 > *']
-
+	 def loadAfter = ['springSecurityCore']
     def title = "Spring Security OTP Plugin"
     def authorEmail = "info@osoco.es"
     def organization = [name: "OSOCO", url: "http://osoco.es/"]
