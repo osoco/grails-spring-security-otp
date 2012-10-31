@@ -1,8 +1,7 @@
 <plugin name='spring-security-otp' version='0.1' grailsVersion='1.3.7 &gt; *'>
   <authorEmail>info@osoco.es</authorEmail>
   <title>Spring Security OTP Plugin</title>
-  <description>Adds support for one-time password to Spring Security.
-</description>
+  <description>Adds support for one-time password to Spring Security</description>
   <documentation>http://grails.org/plugin/spring-security-otp</documentation>
   <type>SpringSecurityOtpGrailsPlugin</type>
   <resources>
@@ -20,9 +19,11 @@
       <dependency group='commons-codec' name='commons-codec' version='1.7' />
     </compile>
   </dependencies>
-  <plugins />
-  <runtimePluginRequirements>
-    <plugin name='springSecurityCore' version='1.2.7.2 &gt; *' />
-  </runtimePluginRequirements>
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='spring-security-core' version='1.2.7.3' />
+    </compile>
+  </plugins>
+  <runtimePluginRequirements />
   <behavior />
 </plugin>
