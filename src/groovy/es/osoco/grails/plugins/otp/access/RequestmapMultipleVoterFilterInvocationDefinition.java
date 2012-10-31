@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -30,14 +30,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.osoco.grails.plugins.otp.access
+package es.osoco.grails.plugins.otp.access;
 
-import javax.servlet.http.HttpServletRequest
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.security.web.FilterInvocation
+import javax.servlet.http.HttpServletRequest;
+
+import org.codehaus.groovy.grails.plugins.springsecurity.ReflectionUtils;
+import org.springframework.security.web.FilterInvocation;
 
 /**
- * Class based on Grails Spring Security Core's <code><code>org.codehaus.groovy.grails.plugins.springsecurity.RequestmapFilterInvocationDefinition</code>.
+ * Based on Grails Spring Security Core's <code><code>org.codehaus.groovy.grails.plugins.springsecurity.RequestmapFilterInvocationDefinition</code>.
  *
  * @author <a href='mailto:rafael.luque@osoco.es'>Rafael Luque</a>
  */
@@ -81,7 +85,9 @@ public class RequestmapMultipleVoterFilterInvocationDefinition extends AbstractM
 			compileAndStoreMapping(entry.getKey(), split(entry.getValue()));
 		}
 
-		if (_log.isTraceEnabled()) _log.trace("configs: " + getConfigAttributeMap());
+		if (_log.isTraceEnabled()) {
+			_log.trace("configs: " + getConfigAttributeMap());
+		}
 	}
 
 	protected Map<String, String> loadRequestmaps() {

@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -30,7 +30,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.osoco.grails.plugins.otp.access
+package es.osoco.grails.plugins.otp.access;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -59,7 +59,6 @@ import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest;
 import org.codehaus.groovy.grails.web.util.WebUtils;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
-import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 

@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -30,26 +30,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.osoco.grails.plugins.otp.authentication
+package es.osoco.grails.plugins.otp.authentication;
 
-import org.springframework.security.core.AuthenticationException
+import org.springframework.security.core.AuthenticationException;
 
 /**
- * Thrown if an {@link org.springframework.security.core.Authentication Authentication} object does not hold 
+ * Thrown if an {@link org.springframework.security.core.Authentication Authentication} object does not hold
  * a required authority and the secured object requires also one-time password authentication.
  *
  * @author <a href="mailto:rafael.luque@osoco.es">Rafael Luque</a>
  */
-class TwoFactorAuthenticationException extends AuthenticationException {
+public class TwoFactorAuthenticationException extends AuthenticationException {
 
-    /**
+    private static final long serialVersionUID = 1;
+
+	/**
      * Constructs an <code>TwoFactorAuthenticationException</code> with the specified
      * message.
      *
      * @param msg the detail message
      */
     public TwoFactorAuthenticationException(String msg) {
-        super(msg)
+        super(msg);
     }
 
     /**
@@ -60,6 +62,6 @@ class TwoFactorAuthenticationException extends AuthenticationException {
      * @param t root cause
      */
     public TwoFactorAuthenticationException(String msg, Throwable t) {
-        super(msg, t)
+        super(msg, t);
     }
 }

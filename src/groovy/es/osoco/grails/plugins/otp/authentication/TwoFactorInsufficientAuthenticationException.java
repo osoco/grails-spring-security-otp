@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -30,9 +30,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package es.osoco.grails.plugins.otp.authentication
+package es.osoco.grails.plugins.otp.authentication;
 
-import org.springframework.security.authentication.InsufficientAuthenticationException
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 
 /**
  * Thrown if an authentication request is rejected because the credentials are not sufficiently trusted
@@ -40,7 +40,9 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
  *
  * @author <a href="mailto:rafael.luque@osoco.es">Rafael Luque</a>
  */
-class TwoFactorInsufficientAuthenticationException extends InsufficientAuthenticationException {
+public class TwoFactorInsufficientAuthenticationException extends InsufficientAuthenticationException {
+
+    private static final long serialVersionUID = 1;
 
     /**
      * Constructs an <code>InsufficientAuthenticationException</code> with the
@@ -49,7 +51,7 @@ class TwoFactorInsufficientAuthenticationException extends InsufficientAuthentic
      * @param msg the detail message
      */
     public TwoFactorInsufficientAuthenticationException(String msg) {
-        super(msg)
+        super(msg);
     }
 
     /**
@@ -60,7 +62,6 @@ class TwoFactorInsufficientAuthenticationException extends InsufficientAuthentic
      * @param t root cause
      */
     public TwoFactorInsufficientAuthenticationException(String msg, Throwable t) {
-        super(msg, t)
+        super(msg, t);
     }
-
 }
