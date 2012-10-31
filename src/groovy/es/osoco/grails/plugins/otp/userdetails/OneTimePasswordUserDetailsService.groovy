@@ -1,9 +1,9 @@
 /*
  * ====================================================================
- *    ____  _________  _________ 
+ *    ____  _________  _________
  *   / __ \/ ___/ __ \/ ___/ __ \
  *  / /_/ (__  ) /_/ / /__/ /_/ /
- *  \____/____/\____/\___/\____/ 
+ *  \____/____/\____/\___/\____/
  *
  *  ~ La empresa de los programadores profesionales ~
  *
@@ -34,19 +34,18 @@ package es.osoco.grails.plugins.otp.userdetails
 
 import org.codehaus.groovy.grails.plugins.springsecurity.GormUserDetailsService
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
-
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 /**
- * This class extends the Grails Spring Security Core's {@link GrailsUserDetailsService} class
+ * Extends the Grails Spring Security Core's {@link GrailsUserDetailsService} class
  * to load also the user's secretKey attribugte required to check the one-time password.
  *
  * @author <a href='mailto:rafael.luque@osoco.es'>Rafael Luque</a>
  */
 class OneTimePasswordUserDetailsService extends GormUserDetailsService {
 
-    @Override
+	@Override
 	protected UserDetails createUserDetails(user, Collection<GrantedAuthority> authorities) {
 
 		def conf = SpringSecurityUtils.securityConfig
@@ -68,7 +67,6 @@ class OneTimePasswordUserDetailsService extends GormUserDetailsService {
 		boolean passwordExpired = passwordExpiredPropertyName ? user."$passwordExpiredPropertyName" : false
 
 		new GrailsOtpUser(username, password, enabled, !accountExpired, !passwordExpired,
-           !accountLocked, authorities, user.id, secretKey)
+			!accountLocked, authorities, user.id, secretKey)
 	}
-
 }
