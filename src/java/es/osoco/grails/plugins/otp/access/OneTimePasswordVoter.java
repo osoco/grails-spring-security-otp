@@ -70,7 +70,7 @@ public class OneTimePasswordVoter implements AccessDecisionVoter {
 	}
 
 	public boolean supports(ConfigAttribute attribute) {
-		return attribute != null && attribute.getAttribute() == OneTimePasswordVoter.IS_AUTHENTICATED_OTP;
+		return attribute != null && OneTimePasswordVoter.IS_AUTHENTICATED_OTP.equals(attribute.getAttribute());
 	}
 
 	/**
