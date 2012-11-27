@@ -38,24 +38,31 @@ security {
 	otp {
 		active = true
 
-        // Use a combined form for the two-factors or different forms
+        /** User domain class specific properties */
+        userLookup.secretKeyPropertyName = 'secretKey'
+
+        /** Use a combined form for the two-factors or different forms */
         useTwoFactorsCombinedLoginForm = false
 
+        /** Configuration compatible with Google Authentication app */
         totp.digits = 6
         totp.algorithm = 'HmacSHA1'
+
+        /** Accepts neighbouring values to support clock drifts */
         totp.preStepsValidWindow = 1
         totp.postStepsValidWindow = 1
 
+        /** Auth login pages */
         auth.loginFormUrl = '/login/authOTP'
         auth.ajaxLoginFormUrl = '/login/authOTPAjax'
-
         auth.combinedLoginFormUrl = '/login/authTwoFactors'
         auth.combinedAjaxLoginFormUrl = '/login/authTwoFactorsAjax'
 
+        /** Auth config */
         auth.forceHttps = false
         auth.useForward = false
 
-        /** authentication processing filters */
+        /** Authentication processing filters */
         apf.filterProcessesUrl = '/j_spring_security_otp'
         apf.twoFactorsFilterProcessesUrl = '/j_spring_security_twofactors'
         apf.usernameParameter = OTPAF.SPRING_SECURITY_OTP_FORM_USERNAME_KEY // 'j_username'
@@ -64,8 +71,5 @@ security {
         apf.continueChainBeforeSuccessfulAuthentication = false
         apf.allowSessionCreation = true
         apf.postOnly = true
-
-        /** user class specific properties */
-        userLookup.secretKeyPropertyName = 'secretKey'
     }
 }
